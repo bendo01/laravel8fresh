@@ -9,6 +9,9 @@ use App\Actions\Jetstream\DeleteUser;
 use App\Actions\Jetstream\UpdateTeamName;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
+use App\Models\Authentification\User;
+use App\Models\Authentification\Team;
+use App\Models\Authentification\Membership;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -29,8 +32,10 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Jetstream::useUserModel(User::class);
+        Jetstream::useTeamModel(Team::class);
+        Jetstream::useMembershipModel(Membership::class);
         $this->configurePermissions();
-
         Jetstream::createTeamsUsing(CreateTeam::class);
         Jetstream::updateTeamNamesUsing(UpdateTeamName::class);
         Jetstream::addTeamMembersUsing(AddTeamMember::class);
